@@ -14,7 +14,12 @@ app.get("/", (req, res) => {
   res.send("Hello from DuneAesthetics!");
 });
 
-var allowedDomains = ["http://localhost:3000", "https://sendgrid.api-docs.io","https://duneaesthetics.vercel.app"];
+
+var allowedDomains = [
+  "http://localhost:3000",
+  "https://sendgrid.api-docs.io",
+  "https://duneaesthetics.vercel.app",
+];
 
 const SENDGRID_API = process.env.API_KEY;
 sgMail.setApiKey(SENDGRID_API);
@@ -37,6 +42,7 @@ app.use(
 
 app.post("/sendmail", async (req, res) => {
   try {
+    if(req.method === 'OPTIONS') { return res.status(200).json(({ body: "OK" })) }
     const { name, phone, email, note } = req.body;
 
     if (!name || !phone) {
