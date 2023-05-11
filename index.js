@@ -42,9 +42,7 @@ app.use(
 
 app.post("/sendmail", async (req, res) => {
   try {
-    if(req.method === 'OPTIONS') { return res.status(200).json(({ body: "OK" })) }
     const { name, phone, email, note } = req.body;
-
     if (!name || !phone) {
       return res
         .status(400)
