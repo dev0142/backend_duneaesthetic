@@ -19,6 +19,7 @@ var allowedDomains = [
   "http://localhost:3000",
   "https://sendgrid.api-docs.io",
   "https://duneaesthetics.vercel.app",
+  "https://duneaesthetics.com"
 ];
 
 const SENDGRID_API = process.env.API_KEY;
