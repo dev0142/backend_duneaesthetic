@@ -42,7 +42,7 @@ app.use(
 
 app.post("/sendmail", async (req, res) => {
   try {
-    const { name, phone, email, note } = req.body;
+    const { name, phone, email, note ,date} = req.body;
     if (!name || !phone) {
       return res
         .status(400)
@@ -53,7 +53,7 @@ app.post("/sendmail", async (req, res) => {
       from: "info@duneaesthetics.com",
       subject: "New Customer Enquiry",
       text: "New Customer Enquiry",
-      html: `<h3>New customer Enquiry</h3><br /><h4>Name : <p>${name}</p></h4><br /><h4>Phone : <p>${phone}</p></h4><br /><h4>Email : <p>${email}</p></h4><br /><h4>Any Note : <p>${note}</p></h4><br />`,
+      html: `<h3>New customer Enquiry</h3><br /><h4>Name : <p>${name}</p></h4><br /><h4>Phone : <p>${phone}</p></h4><br /><h4>Appointment Date : <p>${date}</p></h4><br /><h4>Email : <p>${email}</p></h4><br /><h4>Any Note : <p>${note}</p></h4><br />`,
     };
     const mailSent = await sgMail.send(message);
     if (mailSent) {
