@@ -5,6 +5,7 @@ const serverless = require('serverless-http');
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
 const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
@@ -16,7 +17,7 @@ const Data = db.dune_user_data;
 db.sequelize.sync();
 dotenv.config({ path: "../config.env" });
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send("Hello from DuneAesthetics!");
 });
 
@@ -45,10 +46,9 @@ app.use(
     credentials: true,
   })
 );
-app.use(`/.netlify/functions/server`, router);
 const giveAccess=true;
 
-app.get("/duneaesthetics",async(req,res)=>{
+router.get("/duneaesthetics",async(req,res)=>{
   try {
     if(giveAccess)
     {
@@ -62,7 +62,7 @@ app.get("/duneaesthetics",async(req,res)=>{
   }
 })
 
-app.post("/sendmail", async (req, res) => {
+router.post("/sendmail", async (req, res) => {
   try {
     const { name, phone, email, note, date } = req.body;
     if (!name || !phone) {
@@ -107,8 +107,8 @@ app.post("/sendmail", async (req, res) => {
     console.log(error);
   }
 });
-app.use(`/.netlify/functions/api`, router);
-
+app.use(bodyParser.json());
+app.use('/.netlify/functions/api', router);
 app.listen(process.env.PORT || 3001, () => {
   console.log(`server running at port ${process.env.PORT}`);
 });

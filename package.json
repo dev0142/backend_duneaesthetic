@@ -2,15 +2,24 @@
   "name": "backend_dune",
   "version": "1.0.0",
   "description": "",
-  "main": "src/api.js",
+  "main": "functions/api.js",
   "scripts": {
-    "start": "node src/api.js",
+    "start": "netlify-lambda serve src",
     "build": "netlify-lambda build src"
   },
+  "keywords": [
+    "netlify",
+    "express.js"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "pg-hstore": "^2.3.4",
+    "webpack": "^5.88.1"
+  },
+  "devDependencies": {
     "@sendgrid/mail": "^7.7.0",
+    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -18,11 +27,9 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.4.2",
     "netlify-cli": "^6.12.3",
-    "netlify-lambda": "^0.4.0",
+    "netlify-lambda": "^1.6.3",
     "nodemon": "^1.14.9",
-    "react-scripts": "^5.0.1",
     "sequelize": "^6.32.1",
-    "serverless-http": "^3.2.0",
-    "webpack": "^5.88.1"
+    "serverless-http": "^3.2.0"
   }
 }
