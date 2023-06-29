@@ -26,6 +26,7 @@
     "netlify-lambda": "^1.6.3",
     "nodemon": "^1.14.9",
     "pg-hstore": "^2.3.4",
+    "react-scripts": "^5.0.1",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1",
     "serverless-http": "^3.2.0",
