@@ -8,18 +8,20 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
 app.use(cookieParser());
 
+const db = require("./models");
+const Data = db.dune_user_data;
+db.sequelize.sync();
 dotenv.config({ path: "./config.env" });
 
 app.get("/", (req, res) => {
   res.send("Hello from DuneAesthetics!");
 });
 
-
 var allowedDomains = [
   "http://localhost:3000",
   "https://sendgrid.api-docs.io",
   "https://duneaesthetics.vercel.app",
-  "https://duneaesthetics.com"
+  "https://duneaesthetics.com",
 ];
 
 const SENDGRID_API = process.env.API_KEY;
@@ -40,15 +42,48 @@ app.use(
     credentials: true,
   })
 );
+const giveAccess=true;
+
+app.get("/duneaesthetics",async(req,res)=>{
+  try {
+    if(giveAccess)
+    {
+      res.status(200).send({message:"Great"});
+    }
+    else{
+      res.status(404).send({message:"not authorized"});
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})
 
 app.post("/sendmail", async (req, res) => {
   try {
-    const { name, phone, email, note ,date} = req.body;
+    const { name, phone, email, note, date } = req.body;
     if (!name || !phone) {
       return res
         .status(400)
         .send({ message: "Please enter all the mandatory details" });
     }
+    const userData = {
+      customer_name: name,
+      phone_number: phone,
+      customer_email: email,
+      appointment_date: date,
+      notes: note,
+    };
+    Data.create(userData)
+      .then((data) => {
+        res.status(200);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial.",
+        });
+      });
+
     const message = {
       to: "devashishbhandari09@gmail.com",
       from: "info@duneaesthetics.com",
@@ -73,5 +108,4 @@ app.listen(process.env.PORT || 3001, () => {
   console.log(`server running at port ${process.env.PORT}`);
 });
 
-
-module.exports = app
+module.exports = app;
