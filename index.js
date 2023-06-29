@@ -1,5 +1,7 @@
+'use strict';
 const express = require("express");
 const sgMail = require("@sendgrid/mail");
+const serverless = require('serverless-http');
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -109,3 +111,4 @@ app.listen(process.env.PORT || 3001, () => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
