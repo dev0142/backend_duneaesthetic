@@ -2,10 +2,10 @@
   "name": "backend_dune",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/api.js",
   "scripts": {
-    "start": "node ./index.js",
-    "build": "netlify-cli build express"
+    "start": "node src/api.js",
+    "build": "netlify-lambda build src"
   },
   "author": "",
   "license": "ISC",
@@ -17,9 +17,12 @@
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.4.2",
-    "netlify-cli": "^15.7.0",
-    "nodemon": "^2.0.22",
+    "netlify-cli": "^6.12.3",
+    "netlify-lambda": "^0.4.0",
+    "nodemon": "^1.14.9",
+    "react-scripts": "^5.0.1",
     "sequelize": "^6.32.1",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "webpack": "^5.88.1"
   }
 }
