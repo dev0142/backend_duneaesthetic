@@ -9,8 +9,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
-const router = express.Router();
-
 const db = require("./models");
 const Data = db.dune_user_data;
 db.sequelize.sync();
