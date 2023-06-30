@@ -1,7 +1,6 @@
-'use strict';
 const express = require("express");
 const sgMail = require("@sendgrid/mail");
-const serverless = require('serverless-http');
+// const serverless = require('serverless-http');
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -12,10 +11,10 @@ app.use(express.urlencoded({ limit: "50mb" }));
 app.use(cookieParser());
 const router = express.Router();
 
-const db = require("../models");
+const db = require("./models");
 const Data = db.dune_user_data;
 db.sequelize.sync();
-dotenv.config({ path: "../config.env" });
+dotenv.config({ path: "./config.env" });
 
 router.get("/", (req, res) => {
   res.send("Hello from DuneAesthetics!");
@@ -108,10 +107,9 @@ router.post("/sendmail", async (req, res) => {
   }
 });
 app.use(bodyParser.json());
-app.use('/.netlify/functions/api', router);
-app.listen(process.env.PORT || 3001, () => {
+// app.use('/.netlify/functions/api', router);
+app.listen(3001, () => {
   console.log(`server running at port ${process.env.PORT}`);
 });
 
 module.exports = app;
-module.exports.handler = serverless(app);

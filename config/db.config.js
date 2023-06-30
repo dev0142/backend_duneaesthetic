@@ -6,7 +6,6 @@ module.exports = {
     PASSWORD: "Dune@1234",
     DB: "u787342424_duneaesthetics",
     dialect: "mysql",
-    dialectModule:mysql2,
     pool: {
       max: 5,
       min: 0,
