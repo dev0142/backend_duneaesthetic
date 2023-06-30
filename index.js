@@ -16,7 +16,7 @@ const Data = db.dune_user_data;
 db.sequelize.sync();
 dotenv.config({ path: "./config.env" });
 
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello from DuneAesthetics!");
 });
 
@@ -47,7 +47,7 @@ app.use(
 );
 const giveAccess=true;
 
-router.get("/duneaesthetics",async(req,res)=>{
+app.get("/duneaesthetics",async(req,res)=>{
   try {
     if(giveAccess)
     {
@@ -61,7 +61,7 @@ router.get("/duneaesthetics",async(req,res)=>{
   }
 })
 
-router.post("/sendmail", async (req, res) => {
+app.post("/sendmail", async (req, res) => {
   try {
     const { name, phone, email, note, date } = req.body;
     if (!name || !phone) {
@@ -107,7 +107,6 @@ router.post("/sendmail", async (req, res) => {
   }
 });
 app.use(bodyParser.json());
-// app.use('/.netlify/functions/api', router);
 app.listen(3001, () => {
   console.log(`server running at port ${process.env.PORT}`);
 });
