@@ -1,5 +1,3 @@
-const mysql2=require("mysql2");
-
 module.exports = {
     HOST: "srv1002.hstgr.io",
     USER: "u787342424_clinic_data",

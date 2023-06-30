@@ -80,12 +80,10 @@ app.post("/sendmail", async (req, res) => {
     Data.create(userData)
       .then((data) => {
         res.status(200);
+        console.log(data);
       })
       .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the user data.",
-        });
+        return res.status(500).send(err);
       });
 
     const message = {
