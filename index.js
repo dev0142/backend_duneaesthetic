@@ -106,7 +106,7 @@ app.post("/sendmail", async (req, res) => {
     console.log(error);
   }
 });
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.listen(3001, () => {
   console.log(`server running at port ${process.env.PORT}`);
 });
