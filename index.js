@@ -62,6 +62,25 @@ app.get("/duneaesthetics",async(req,res)=>{
   }
 })
 
+app.post("/updateUserData",async(req,res)=>{
+  const { name, phone, email, note, date } = req.body;
+  const userData = {
+    customer_name: name,
+    phone_number: phone,
+    customer_email: email,
+    appointment_date: date,
+    notes: note,
+  };
+  Data.create(userData)
+    .then((data) => {
+      res.status(200).send({message:"updated user data sucessfully"});
+      console.log(data);
+    })
+    .catch((err) => {
+      res.status(500).send({message:"Something went wrong"});
+    });
+})
+
 app.post("/sendmail", async (req, res) => {
   try {
     const { name, phone, email, note, date } = req.body;
@@ -70,21 +89,6 @@ app.post("/sendmail", async (req, res) => {
         .status(400)
         .send({ message: "Please enter all the mandatory details" });
     }
-    const userData = {
-      customer_name: name,
-      phone_number: phone,
-      customer_email: email,
-      appointment_date: date,
-      notes: note,
-    };
-    Data.create(userData)
-      .then((data) => {
-        res.status(200);
-        console.log(data);
-      })
-      .catch((err) => {
-        return res.status(500).send(err);
-      });
 
     const message = {
       to: "devashishbhandari09@gmail.com",
