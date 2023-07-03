@@ -89,7 +89,7 @@ app.post("/sendmail", async (req, res) => {
     }
 
     const message = {
-      to: "devashishbhandari09@gmail.com",
+      to: "info@duneaesthetics.com",
       from: "info@duneaesthetics.com",
       subject: "New Customer Enquiry",
       text: "New Customer Enquiry",
