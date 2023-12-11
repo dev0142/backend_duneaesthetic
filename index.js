@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
   res.send("Hello from DuneAesthetics!");
 });
 
-var allowedDomains = [
+var ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "https://sendgrid.api-docs.io",
   "https://duneaesthetics.vercel.app",
@@ -29,36 +29,44 @@ var allowedDomains = [
 const SENDGRID_API = process.env.API_KEY;
 sgMail.setApiKey(SENDGRID_API);
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // bypass the requests with no origin (like curl requests, mobile apps, etc )
-      if (!origin) return callback(null, true);
+app.use((req, res, next) => {
+  let origin = req.headers.origin;
+  let theOrigin = (ALLOWED_ORIGINS.indexOf(origin) >= 0) ? origin : ALLOWED_ORIGINS[0];
+  res.header("Access-Control-Allow-Origin", theOrigin);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-      if (allowedDomains.indexOf(origin) === -1) {
-        var msg = `This site ${origin} does not have an access. Only specific domains are allowed to access it.`;
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-    credentials: true,
-  })
-);
-const giveAccess=true;
-
-app.get("/duneaesthetics",async(req,res)=>{
-  try {
-    if(giveAccess)
-    {
-      res.status(200).send({message:"Great"});
-    }
-    else{
-      res.status(404).send({message:"not authorized"});
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  next();
 })
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       // bypass the requests with no origin (like curl requests, mobile apps, etc )
+//       if (!origin) return callback(null, true);
+
+//       if (allowedDomains.indexOf(origin) === -1) {
+//         var msg = `This site ${origin} does not have an access. Only specific domains are allowed to access it.`;
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     },
+//     credentials: true,
+//   })
+// );
+// const giveAccess=true;
+
+// app.get("/duneaesthetics",async(req,res)=>{
+//   try {
+//     if(giveAccess)
+//     {
+//       res.status(200).send({message:"Great"});
+//     }
+//     else{
+//       res.status(404).send({message:"not authorized"});
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// })
 
 app.post("/updateUserData",async(req,res)=>{
   const { name, phone, email, note, date } = req.body;
