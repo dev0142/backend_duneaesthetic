@@ -4,7 +4,7 @@ const sgMail = require("@sendgrid/mail");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
@@ -23,20 +23,27 @@ var ALLOWED_ORIGINS = [
   "https://sendgrid.api-docs.io",
   "https://duneaesthetics.vercel.app",
   "https://duneaesthetics.com",
-  "http://192.168.29.217:3000"
+  "http://192.168.29.217:3000",
 ];
 
 const SENDGRID_API = process.env.API_KEY;
 sgMail.setApiKey(SENDGRID_API);
 
 app.use((req, res, next) => {
+  console.log("i m the iddleware kind of");
+
   let origin = req.headers.origin;
-  let theOrigin = (ALLOWED_ORIGINS.indexOf(origin) >= 0) ? origin : ALLOWED_ORIGINS[0];
+  let theOrigin =
+    ALLOWED_ORIGINS.indexOf(origin) >= 0 ? origin : ALLOWED_ORIGINS[0];
+  console.log(theOrigin);
   res.header("Access-Control-Allow-Origin", theOrigin);
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
 
   next();
-})
+});
 // app.use(
 //   cors({
 //     origin: function (origin, callback) {
@@ -68,7 +75,7 @@ app.use((req, res, next) => {
 //   }
 // })
 
-app.post("/updateUserData",async(req,res)=>{
+app.post("/updateUserData", async (req, res) => {
   const { name, phone, email, note, date } = req.body;
   const userData = {
     customer_name: name,
@@ -79,13 +86,13 @@ app.post("/updateUserData",async(req,res)=>{
   };
   Data.create(userData)
     .then((data) => {
-      res.status(200).send({message:"updated user data sucessfully"});
+      res.status(200).send({ message: "updated user data sucessfully" });
       console.log(data);
     })
     .catch((err) => {
-      res.status(500).send({message:"Something went wrong"});
+      res.status(500).send({ message: "Something went wrong" });
     });
-})
+});
 
 app.post("/sendmail", async (req, res) => {
   try {
