@@ -114,6 +114,9 @@ app.post("/sendmail", async (req, res) => {
     if (mailSent) {
       res.status(200).send({ message: "Mail has been sent to the user." });
     }
+    else{
+      res.status(404).send({ message: "Something went wrong! Please try again later" });
+    }
   } catch (error) {
     res
       .status(404)
